@@ -1,0 +1,109 @@
+{
+  "_readme": "Nifty 50 Total Return Index (TRI) calendar-year returns, 2000-2025, in decimal form (0.15 = +15%). 2008, 2009, and 2016 are exact published TRI figures (NSE Indices Nifty 50 Whitepaper 2026, via Bajaj AMC). All other years are estimated: NSE-published Price Return Index figures + a +1.5pp dividend-reinvestment adjustment. This is a documented approximation, not exact TRI for every year \u2014 verify against niftyindices.com historical reports before treating this as a precise dataset.",
+  "returns": [
+    {
+      "year": 2000,
+      "return": -0.1315
+    },
+    {
+      "year": 2001,
+      "return": -0.1244
+    },
+    {
+      "year": 2002,
+      "return": 0.0475
+    },
+    {
+      "year": 2003,
+      "return": 0.734
+    },
+    {
+      "year": 2004,
+      "return": 0.1218
+    },
+    {
+      "year": 2005,
+      "return": 0.3784
+    },
+    {
+      "year": 2006,
+      "return": 0.4133
+    },
+    {
+      "year": 2007,
+      "return": 0.5627
+    },
+    {
+      "year": 2008,
+      "return": -0.513
+    },
+    {
+      "year": 2009,
+      "return": 0.776
+    },
+    {
+      "year": 2010,
+      "return": 0.1945
+    },
+    {
+      "year": 2011,
+      "return": -0.2312
+    },
+    {
+      "year": 2012,
+      "return": 0.292
+    },
+    {
+      "year": 2013,
+      "return": 0.0826
+    },
+    {
+      "year": 2014,
+      "return": 0.3289
+    },
+    {
+      "year": 2015,
+      "return": -0.0256
+    },
+    {
+      "year": 2016,
+      "return": 0.044
+    },
+    {
+      "year": 2017,
+      "return": 0.3015
+    },
+    {
+      "year": 2018,
+      "return": 0.0465
+    },
+    {
+      "year": 2019,
+      "return": 0.1352
+    },
+    {
+      "year": 2020,
+      "return": 0.164
+    },
+    {
+      "year": 2021,
+      "return": 0.2562
+    },
+    {
+      "year": 2022,
+      "return": 0.0583
+    },
+    {
+      "year": 2023,
+      "return": 0.2153
+    },
+    {
+      "year": 2024,
+      "return": 0.103
+    },
+    {
+      "year": 2025,
+      "return": 0.125
+    }
+  ]
+}
