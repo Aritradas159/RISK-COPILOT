@@ -11,7 +11,7 @@ import learningRoutes from './routes/learning.js';
 import { errorHandler, notFound } from './middleware/error.js';
 
 const app = express();
-const port = process.env.PORT || 5000;
+
 
 app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173', credentials: true }));
@@ -27,15 +27,22 @@ app.use(notFound);
 app.use(errorHandler);
 
 async function start() {
-  if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') throw new Error('JWT_SECRET is missing.');
-  if (!process.env.JWT_SECRET) process.env.JWT_SECRET = 'dev-only-change-me-before-production';
+  if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
+    throw new Error('JWT_SECRET is missing.');
+  }
+
+  if (!process.env.JWT_SECRET) {
+    process.env.JWT_SECRET = 'dev-only-change-me-before-production';
+  }
+
   if (process.env.MONGO_URI) {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('MongoDB connected');
   } else {
-    console.warn('MONGO_URI not set. Running in DEMO MODE with in-memory users/history. Add MONGO_URI for persistence.');
+    console.warn('MONGO_URI not set. Running in DEMO MODE.');
   }
-  app.listen(port, () => console.log(`Risk Copilot API listening on http://localhost:${port}`));
 }
 
-start().catch(err => { console.error(err); process.exit(1); });
+start().catch(err => console.error(err));
+
+export default app;
