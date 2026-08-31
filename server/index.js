@@ -54,34 +54,49 @@ app.use('/api/learning', learningRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-// Server startup
-async function start() {
-  if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
-    throw new Error('JWT_SECRET is missing.');
-  }
-
-  if (!process.env.JWT_SECRET) {
-    process.env.JWT_SECRET = 'dev-only-change-me-before-production';
-  }
-
-  // MongoDB is optional in demo mode
-  if (process.env.MONGO_URI) {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('MongoDB connected');
-  } else {
-    console.warn('MONGO_URI not set. Running in DEMO MODE.');
-  }
-
-  const PORT = process.env.PORT || 5000;
-
-  app.listen(PORT, () => {
-    console.log(`Risk Copilot API running on http://localhost:${PORT}`);
-  });
+// Env checks
+if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
+  throw new Error('JWT_SECRET is missing.');
+}
+if (!process.env.JWT_SECRET) {
+  process.env.JWT_SECRET = 'dev-only-change-me-before-production';
 }
 
-start().catch((err) => {
-  console.error('Failed to start Risk Copilot API:', err);
-  process.exit(1);
+// MongoDB — cache connection across serverless invocations
+let mongoReady = null;
+async function ensureMongo() {
+  if (!process.env.MONGO_URI) {
+    console.warn('MONGO_URI not set. Running in DEMO MODE.');
+    return;
+  }
+  if (mongoose.connection.readyState === 1) return;
+  if (!mongoReady) {
+    mongoReady = mongoose.connect(process.env.MONGO_URI);
+  }
+  await mongoReady;
+}
+app.use(async (req, res, next) => {
+  try {
+    await ensureMongo();
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
+
+// Only run a persistent listener when NOT on Vercel (local dev)
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  ensureMongo()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Risk Copilot API running on http://localhost:${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.error('Failed to start Risk Copilot API:', err);
+      process.exit(1);
+    });
+}
 
 export default app;
